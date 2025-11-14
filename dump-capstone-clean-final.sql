@@ -74,29 +74,26 @@ CREATE TABLE `ebook` (
 -- ========================================
 -- 전자책 더미 데이터
 -- ========================================
--- 샘플 PDF: W3C 제공 더미 파일 사용
--- https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf
+-- product 테이블의 AUTO_INCREMENT를 70으로 설정 (기존 66개 + 전자책 3개 = 69까지 사용)
+ALTER TABLE `product` AUTO_INCREMENT = 70;
 
--- EBook #1
-INSERT INTO `product` (`product_name`,`price`,`image_url`,`product_type`,`stock_quantity`,`is_active`)
-VALUES ('리액트 핸드북 (전자책)', 12000.00, '/images/48.jpg', '전자책', 9999, 'true');
-SET @ebook_p1 = LAST_INSERT_ID();
+-- EBook #1 - product_id: 67
+INSERT INTO `product` (`product_id`, `product_name`,`price`,`image_url`,`product_type`,`stock_quantity`,`is_active`)
+VALUES (67, '리액트 핸드북 (전자책)', 12000.00, '/images/48.jpg', '전자책', 9999, 'true');
 INSERT INTO `ebook` (`product_id`,`title`,`content_url`,`file_format`)
-VALUES (@ebook_p1, '리액트 핸드북', '/ebooks/sample.pdf', 'pdf');
+VALUES (67, '리액트 핸드북', '/ebooks/react_handbook.pdf', 'pdf');
 
--- EBook #2
-INSERT INTO `product` (`product_name`,`price`,`image_url`,`product_type`,`stock_quantity`,`is_active`)
-VALUES ('파이썬 빠른 시작 (전자책)', 9000.00, '/images/53.jpg', '전자책', 9999, 'true');
-SET @ebook_p2 = LAST_INSERT_ID();
+-- EBook #2 - product_id: 68
+INSERT INTO `product` (`product_id`, `product_name`,`price`,`image_url`,`product_type`,`stock_quantity`,`is_active`)
+VALUES (68, '파이썬 빠른 시작 (전자책)', 9000.00, '/images/53.jpg', '전자책', 9999, 'true');
 INSERT INTO `ebook` (`product_id`,`title`,`content_url`,`file_format`)
-VALUES (@ebook_p2, '파이썬 빠른 시작', '/ebooks/sample.pdf', 'pdf');
+VALUES (68, '파이썬 빠른 시작', '/ebooks/python_quickstart.pdf', 'pdf');
 
--- EBook #3
-INSERT INTO `product` (`product_name`,`price`,`image_url`,`product_type`,`stock_quantity`,`is_active`)
-VALUES ('웹 프로그래밍 기초 (전자책)', 10000.00, '/images/51.jpg', '전자책', 9999, 'true');
-SET @ebook_p3 = LAST_INSERT_ID();
+-- EBook #3 - product_id: 69
+INSERT INTO `product` (`product_id`, `product_name`,`price`,`image_url`,`product_type`,`stock_quantity`,`is_active`)
+VALUES (69, '웹 프로그래밍 기초 (전자책)', 10000.00, '/images/51.jpg', '전자책', 9999, 'true');
 INSERT INTO `ebook` (`product_id`,`title`,`content_url`,`file_format`)
-VALUES (@ebook_p3, '웹 프로그래밍 기초', '/ebooks/sample.pdf', 'pdf');
+VALUES (69, '웹 프로그래밍 기초', '/ebooks/web_programming_basics.pdf', 'pdf');
 
 -- ========================================
 -- 주문 테이블
@@ -162,12 +159,15 @@ CREATE TABLE `receipts` (
 -- ========================================
 -- 테스트용 주문 데이터 (전자책 구매)
 -- ========================================
-INSERT INTO `orders` (`user_id`, `status`, `total_amount`, `order_date`) VALUES 
-(1, '완료', 12000.00, '2025-01-15 10:00:00'),
-(1, '완료', 9000.00, '2025-01-15 11:00:00'),
-(2, '완료', 10000.00, '2025-01-16 10:00:00');
-
-INSERT INTO `order_items` (`order_id`, `product_id`, `quantity`, `price_per_item`) VALUES 
-(1, 67, 1, 12000.00),  -- 관리자가 리액트 핸드북 구매
-(2, 68, 1, 9000.00),   -- 관리자가 파이썬 빠른 시작 구매
-(3, 69, 1, 10000.00);  -- 사용자2가 웹 프로그래밍 기초 구매
+-- 주문 데이터는 선택사항이며, 실제 운영 시에는 웹 인터페이스를 통해 생성됩니다.
+-- 필요시 아래 주석을 해제하여 테스트 데이터를 추가할 수 있습니다.
+-- 
+-- INSERT INTO `orders` (`user_id`, `status`, `total_amount`, `order_date`) VALUES 
+-- (1, '완료', 12000.00, '2025-01-15 10:00:00'),
+-- (1, '완료', 9000.00, '2025-01-15 11:00:00'),
+-- (1, '완료', 10000.00, '2025-01-16 10:00:00');
+-- 
+-- INSERT INTO `order_items` (`order_id`, `product_id`, `quantity`, `price_per_item`) VALUES 
+-- (1, 67, 1, 12000.00),  -- 관리자가 리액트 핸드북 구매
+-- (2, 68, 1, 9000.00),   -- 관리자가 파이썬 빠른 시작 구매
+-- (3, 69, 1, 10000.00);  -- 관리자가 웹 프로그래밍 기초 구매

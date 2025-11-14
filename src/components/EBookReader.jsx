@@ -63,8 +63,8 @@ function EBookReader() {
         
         console.log('EBookReader - 콘텐츠 설정:', data.content_url, data.file_format); // 디버깅용
         
-        // 로컬 PDF 파일 사용
-        setContentUrl('/ebooks/sample.pdf');
+        // 서버에서 반환한 실제 전자책 파일 경로 사용
+        setContentUrl(data.content_url || '/ebooks/sample.pdf');
         setFileFormat(data.file_format || 'pdf');
       } catch (err) {
         if (err.name !== 'AbortError') {
